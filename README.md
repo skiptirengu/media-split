@@ -1,6 +1,11 @@
 # mp3-split
 Split mp3 audio files
 
+## Install
+```bash
+npm install [-g] mp3-split
+```
+
 ## Template file example
 ```
 [00:00] eli filosov [ p h i l o ] - oneofone_rwrk

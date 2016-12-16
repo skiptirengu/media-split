@@ -10,5 +10,8 @@
     "colors": "^1.1.2",
     "sanitize-filename": "^1.6.1",
     "yargs": "^6.5.0"
+  },
+  "bin": {
+    "mp3-split": "index.js"
   }
 }

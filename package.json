@@ -1,0 +1,12 @@
+{
+  "name": "sound-splitter",
+  "version": "1.0.0",
+  "description": "Audio splitter",
+  "main": "index.js",
+  "author": "Skiptir Engu",
+  "license": "ISC",
+  "dependencies": {
+    "sanitize-filename": "^1.6.1",
+    "yargs": "^6.5.0"
+  }
+}

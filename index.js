@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+'use strict';
 const yargs = require('yargs');
 const fs = require('fs');
 const spawnSync = require('child_process').spawnSync;

@@ -1,11 +1,13 @@
 {
-  "name": "sound-splitter",
+  "name": "mp3-split",
   "version": "1.0.0",
   "description": "Audio splitter",
   "main": "index.js",
   "author": "Skiptir Engu",
+  "repository": "https://github.com/skiptirengu/mp3-split",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.1.2",
     "sanitize-filename": "^1.6.1",
     "yargs": "^6.5.0"
   }

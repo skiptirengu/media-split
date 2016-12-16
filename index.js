@@ -3,6 +3,7 @@ const fs = require('fs');
 const spawnSync = require('child_process').spawnSync;
 const path = require('path');
 const sanitize = require("sanitize-filename");
+const colors = require('colors');
 
 let argv = yargs.usage('Usage: $0 <command> [options]')
   .command('split', 'Split audio file')
@@ -16,6 +17,16 @@ let argv = yargs.usage('Usage: $0 <command> [options]')
   .help('h')
   .alias('h', 'help')
   .argv;
+
+if (!fs.existsSync(argv.template)) {
+  console.log('Template file is invalid!'.red);
+  return -1;
+}
+
+if (!fs.existsSync(argv.input)) {
+  console.log('Input file is invalid!'.red);
+  return -1;
+}
 
 function buildTime(time) {
   return time.toString().replace('[', '').replace(']', '');
@@ -55,6 +66,8 @@ function splitAudio(data) {
     let args = [];
     if (audio.end === null) {
       args = [
+        '-hide_banner',
+        '-loglevel', 'panic',
         '-i', argv.input,
         '-ss', audio.start,
         '-acodec',
@@ -63,6 +76,8 @@ function splitAudio(data) {
       ];
     } else {
       args = [
+        '-hide_banner',
+        '-loglevel', 'panic',
         '-i', argv.input,
         '-ss', audio.start,
         '-to', audio.end,
@@ -71,8 +86,9 @@ function splitAudio(data) {
         audio.name
       ];
     }
-    console.log(audio.name);
+    console.log(`Parsing ${audio.start}...`.green);
     spawnSync('ffmpeg', args, {stdio: [process.stdin, process.stdout, process.stderr]});
+    console.log(`Done!`.green);
   }
 }
 

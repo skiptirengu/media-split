@@ -88,7 +88,7 @@ function splitAudio(data) {
         audio.name
       ];
     }
-    console.log(`Parsing ${audio.start}...`.green);
+    console.log(`Parsing ${audio.name} starting at ${audio.start}...`.green);
     spawnSync('ffmpeg', args, {stdio: [process.stdin, process.stdout, process.stderr]});
     console.log(`Done!`.green);
   }

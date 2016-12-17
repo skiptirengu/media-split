@@ -1,6 +1,6 @@
 {
   "name": "mp3-split",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Audio splitter",
   "main": "index.js",
   "author": "Skiptir Engu",
@@ -9,7 +9,8 @@
   "dependencies": {
     "colors": "^1.1.2",
     "sanitize-filename": "^1.6.1",
-    "yargs": "^6.5.0"
+    "yargs": "^6.5.0",
+    "ytdl-core": "^0.7.20"
   },
   "bin": {
     "mp3-split": "index.js"

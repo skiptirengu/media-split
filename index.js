@@ -99,10 +99,11 @@ function parseTemplate() {
 }
 
 function splitAudio(data) {
+  //TODO metadata for youtube audio
   for (let audio of data) {
     let args = [
       '-hide_banner',
-      //'-loglevel', 'warning',
+      '-loglevel', 'warning',
       '-i', argv.input,
       '-ss', audio.start,
       '-to', audio.end,
@@ -114,7 +115,7 @@ function splitAudio(data) {
     if (audio.end === null) {
       args = [
         '-hide_banner',
-        //'-loglevel', 'warning',
+        '-loglevel', 'warning',
         '-i', argv.input,
         '-ss', audio.start,
         '-metadata', `artist="${argv.artist}"`,

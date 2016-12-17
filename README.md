@@ -1,12 +1,16 @@
 # mp3-split
+
 Split mp3 audio files
 
 ## Install
+
+Make sure you have `ffmpeg` installed and run
 ```bash
 npm install [-g] mp3-split
 ```
 
 ## Template file example
+
 ```
 [00:00] eli filosov [ p h i l o ] - oneofone_rwrk
 [01:30] Swishers [SwuM x bsd.u]

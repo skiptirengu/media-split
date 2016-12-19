@@ -1,6 +1,6 @@
 {
   "name": "mp3-split",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "description": "Audio splitter",
   "main": "index.js",
   "author": "Skiptir Engu",

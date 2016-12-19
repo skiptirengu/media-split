@@ -47,6 +47,18 @@ function buildTime(time) {
   return !isString(time) ? time : time.replace('[', '').replace(']', '');
 }
 
+function getCoverUrl(info) {
+  if (info.iurlmaxres) {
+    return info.iurlmaxres;
+  } else if (info.iurlsd) {
+    return info.iurlsd;
+  } else if (info.iurlhq) {
+    return info.iurlhq;
+  } else {
+    return null;
+  }
+}
+
 function prepareFile() {
   return new Promise((resolve, reject) => {
     if (isUrl) {
@@ -56,7 +68,7 @@ function prepareFile() {
           reject('Unable to download video');
         } else {
           let fname = sanitize(info.title) + ".mp3";
-          let cover = info.iurlmaxres;
+          let cover = getCoverUrl(info);
           if (isString(cover) && !fs.existsSync('cover.jpg')) {
             let cb = res => {
               let data = new Stream();

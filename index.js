@@ -111,10 +111,11 @@ function parseTemplate() {
             if (end === null) throw new Error(`Wrongly formatted template file at line ${nextIdx + 1}`);
           }
           // remove time info from filename
-          let name = sanitize(line.replace(start, '').trim()) + '.mp3';
+          let trackName = line.replace(start, '').trim();
+          let name = sanitize(trackName) + '.mp3';
           start = buildTime(start);
           end = buildTime(end);
-          periods.push({name: name, start: start, end: end});
+          periods.push({name: name, start: start, end: end, trackName: trackName});
         });
       } catch (err) {
         reject(err.message);
@@ -142,6 +143,7 @@ function splitAudio(data) {
       '-metadata', `artist="${argv.artist}"`,
       '-metadata', `album_artist="${argv.artist}"`,
       '-metadata', `album="${argv.album}"`,
+      '-metadata', `name=${audio.trackName}`,
       audio.name
     ];
     if (audio.end === null) {
@@ -153,6 +155,7 @@ function splitAudio(data) {
         '-metadata', `artist="${argv.artist}"`,
         '-metadata', `album_artist="${argv.artist}"`,
         '-metadata', `album="${argv.album}"`,
+        '-metadata', `name=${audio.trackName}`,
         audio.name
       ];
     }

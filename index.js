@@ -91,8 +91,10 @@ function parseTemplate() {
     let periods = [];
     let stream = fs.createReadStream(argv.template, {encoding: 'utf-8', flags: 'r'});
     let regex = /(^[\[]([\d]{1,2}[:])*[\d]{1,2}[:][\d]{1,2}([.][\d]{1,4})?[\]])+/g;
-    stream.on('data', buf => {
-      let split = buf.toString().trim().split('\n');
+    let content = '';
+    stream.on('data', buf => content += buf);
+    stream.on('end', () => {
+      let split = content.toString().trim().split('\n');
       split.forEach((line, idx) => {
         let def = {end: null};
         let match = line.match(regex)[0];
@@ -103,8 +105,6 @@ function parseTemplate() {
         def.name = sanitize(line.replace(match, '').trim()) + '.mp3';
         periods.push(def);
       });
-    });
-    stream.on('end', () => {
       periods.sort((a, b) => {
         if (a.start > b.start) return 1;
         if (a.start < b.start) return -1;

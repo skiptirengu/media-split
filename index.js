@@ -136,26 +136,26 @@ function splitAudio(data) {
   for (let audio of data) {
     let args = [
       '-hide_banner',
-      '-loglevel', 'warning',
+      '-loglevel', 'error',
       '-i', argv.input,
       '-ss', audio.start,
       '-to', audio.end,
       '-metadata', `artist="${argv.artist}"`,
       '-metadata', `album_artist="${argv.artist}"`,
       '-metadata', `album="${argv.album}"`,
-      '-metadata', `name=${audio.trackName}`,
+      '-metadata', `title=${audio.trackName}`,
       audio.name
     ];
     if (audio.end === null) {
       args = [
         '-hide_banner',
-        '-loglevel', 'warning',
+        '-loglevel', 'error',
         '-i', argv.input,
         '-ss', audio.start,
         '-metadata', `artist="${argv.artist}"`,
         '-metadata', `album_artist="${argv.artist}"`,
         '-metadata', `album="${argv.album}"`,
-        '-metadata', `name=${audio.trackName}`,
+        '-metadata', `title=${audio.trackName}`,
         audio.name
       ];
     }

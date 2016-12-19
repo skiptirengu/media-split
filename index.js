@@ -44,7 +44,7 @@ if (!isUrl && !fs.existsSync(argv.input)) {
 }
 
 function buildTime(time) {
-  return time.toString().replace('[', '').replace(']', '');
+  return !isString(time) ? time : time.replace('[', '').replace(']', '');
 }
 
 function prepareFile() {
@@ -86,25 +86,40 @@ function prepareFile() {
   });
 }
 
+function matchTime(str) {
+  let regex = /(^[\[]([\d]{1,2}[:])*[\d]{1,2}[:][\d]{1,2}([.][\d]{1,4})?[\]])+/g;
+  let match = str.match(regex);
+  return match === null ? match : match.pop();
+}
+
 function parseTemplate() {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     let periods = [];
     let stream = fs.createReadStream(argv.template, {encoding: 'utf-8', flags: 'r'});
-    let regex = /(^[\[]([\d]{1,2}[:])*[\d]{1,2}[:][\d]{1,2}([.][\d]{1,4})?[\]])+/g;
     let content = '';
     stream.on('data', buf => content += buf);
     stream.on('end', () => {
       let split = content.toString().trim().split('\n');
-      split.forEach((line, idx) => {
-        let def = {end: null};
-        let match = line.match(regex)[0];
-        def.start = buildTime(match);
-        if (idx + 1 < split.length) {
-          def.end = buildTime(split[idx + 1].match(regex)[0]);
-        }
-        def.name = sanitize(line.replace(match, '').trim()) + '.mp3';
-        periods.push(def);
-      });
+      try {
+        split.forEach((line, idx) => {
+          let start = matchTime(line);
+          if (start === null) throw new Error(`Wrongly formatted template file at line ${idx + 1}`);
+          let end = null;
+          let nextIdx = idx + 1;
+          if (nextIdx < split.length) {
+            end = matchTime(split[nextIdx]);
+            if (end === null) throw new Error(`Wrongly formatted template file at line ${nextIdx + 1}`);
+          }
+          // remove time info from filename
+          let name = sanitize(line.replace(start, '').trim()) + '.mp3';
+          start = buildTime(start);
+          end = buildTime(end);
+          periods.push({name: name, start: start, end: end});
+        });
+      } catch (err) {
+        reject(err.message);
+        return;
+      }
       periods.sort((a, b) => {
         if (a.start > b.start) return 1;
         if (a.start < b.start) return -1;
@@ -116,7 +131,7 @@ function parseTemplate() {
 }
 
 function splitAudio(data) {
-  //TODO metadata for youtube audio
+  //TODO metadata for youtube audio (non acodec)
   for (let audio of data) {
     let args = [
       '-hide_banner',

@@ -7,6 +7,10 @@ const path = require('path');
 const sanitize = require("sanitize-filename");
 const colors = require('colors');
 const ytdl = require('ytdl-core');
+const isString = require('util').isString;
+const http = require('http');
+const https = require('https');
+const Stream = require('stream').Transform;
 
 let argv = yargs.usage('Usage: $0 <command> [options]')
   .command('split', 'Split audio file')
@@ -52,6 +56,19 @@ function prepareFile() {
           reject('Unable to download video');
         } else {
           let fname = sanitize(info.title) + ".mp3";
+          let cover = info.iurlmaxres;
+          if (isString(cover) && !fs.existsSync('cover.jpg')) {
+            let cb = res => {
+              let data = new Stream();
+              res.on('data', chunk => data.push(chunk));
+              res.on('end', () => fs.writeFile('cover.jpg', data.read()));
+            };
+            if (cover.startsWith('https:')) {
+              https.get(cover, cb);
+            } else {
+              http.get(cover, cb);
+            }
+          }
           if (!fs.existsSync(fname)) {
             console.log(`Video found! Saving to ${fname}.`.green);
             let stream = ytdl.downloadFromInfo(info, {filter: 'audioonly'});

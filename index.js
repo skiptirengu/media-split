@@ -140,9 +140,9 @@ function splitAudio(data) {
       '-i', argv.input,
       '-ss', audio.start,
       '-to', audio.end,
-      '-metadata', `artist="${argv.artist}"`,
-      '-metadata', `album_artist="${argv.artist}"`,
-      '-metadata', `album="${argv.album}"`,
+      '-metadata', `artist=${argv.artist}`,
+      '-metadata', `album_artist=${argv.artist}`,
+      '-metadata', `album=${argv.album}`,
       '-metadata', `title=${audio.trackName}`,
       audio.name
     ];
@@ -152,9 +152,9 @@ function splitAudio(data) {
         '-loglevel', 'error',
         '-i', argv.input,
         '-ss', audio.start,
-        '-metadata', `artist="${argv.artist}"`,
-        '-metadata', `album_artist="${argv.artist}"`,
-        '-metadata', `album="${argv.album}"`,
+        '-metadata', `artist=${argv.artist}`,
+        '-metadata', `album_artist=${argv.artist}`,
+        '-metadata', `album=${argv.album}`,
         '-metadata', `title=${audio.trackName}`,
         audio.name
       ];

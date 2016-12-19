@@ -75,7 +75,7 @@ function parseTemplate() {
     let stream = fs.createReadStream(argv.template, {encoding: 'utf-8', flags: 'r'});
     let regex = /(^[\[]([\d]{1,2}[:])*[\d]{1,2}[:][\d]{1,2}([.][\d]{1,4})?[\]])+/g;
     stream.on('data', buf => {
-      let split = buf.toString().split('\n');
+      let split = buf.toString().trim().split('\n');
       split.forEach((line, idx) => {
         let def = {end: null};
         let match = line.match(regex)[0];

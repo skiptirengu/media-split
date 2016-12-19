@@ -54,7 +54,7 @@ function prepareFile() {
           let fname = sanitize(info.title) + ".mp3";
           if (!fs.existsSync(fname)) {
             console.log(`Video found! Saving to ${fname}.`.green);
-            let stream = ytdl.downloadFromInfo(info, { filter: 'audioonly' });
+            let stream = ytdl.downloadFromInfo(info, {filter: 'audioonly'});
             stream.pipe(fs.createWriteStream(fname));
             stream.on('end', () => resolve(fname));
           } else {
@@ -72,12 +72,12 @@ function prepareFile() {
 function parseTemplate() {
   return new Promise(resolve => {
     let periods = [];
-    let stream = fs.createReadStream(argv.template, { encoding: 'utf-8', flags: 'r' });
+    let stream = fs.createReadStream(argv.template, {encoding: 'utf-8', flags: 'r'});
     let regex = /(^[\[]([\d]{1,2}[:])*[\d]{1,2}[:][\d]{1,2}([.][\d]{1,4})?[\]])+/g;
     stream.on('data', buf => {
       let split = buf.toString().split('\n');
       split.forEach((line, idx) => {
-        let def = { end: null };
+        let def = {end: null};
         let match = line.match(regex)[0];
         def.start = buildTime(match);
         if (idx + 1 < split.length) {
@@ -125,7 +125,7 @@ function splitAudio(data) {
       ];
     }
     console.log(`Parsing ${audio.name} starting at ${audio.start}...`.green);
-    spawnSync('ffmpeg', args, { stdio: [process.stdin, process.stdout, process.stderr] });
+    spawnSync('ffmpeg', args, {stdio: [process.stdin, process.stdout, process.stderr]});
     console.log(`Done!`.green);
   }
 }

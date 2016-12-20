@@ -1,11 +1,20 @@
 {
   "name": "mp3-split",
-  "version": "2.3.0",
-  "description": "Audio splitter",
+  "version": "3.0.0",
+  "description": "MP3 audio splitter",
   "main": "index.js",
-  "author": "Skiptir Engu",
+  "author": {
+    "name": "Skiptir Engu",
+    "email": "skiptir.engu@yandex.com"
+  },
+  "contributors": [
+    {
+      "name": "Skiptir Engu",
+      "email": "skiptir.engu@yandex.com"
+    }
+  ],
   "repository": "https://github.com/skiptirengu/mp3-split",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "colors": "^1.1.2",
     "sanitize-filename": "^1.6.1",
@@ -13,6 +22,6 @@
     "ytdl-core": "^0.7.20"
   },
   "bin": {
-    "mp3-split": "index.js"
+    "mp3-split": "lib/cli.js"
   }
 }

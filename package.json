@@ -1,6 +1,6 @@
 {
   "name": "mp3-split",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "MP3 audio splitter",
   "main": "index.js",
   "author": {

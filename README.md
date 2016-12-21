@@ -69,3 +69,8 @@ mp3Split.on('url', (videoInfo) => console.log(videoInfo));
 // emitted when the "audios" options is parsed and, before start to split the audio
 mp3Split.on('data', (data) => console.log(data));
 ```
+
+## License
+
+Licensed under the incredibly [permissive](http://en.wikipedia.org/wiki/Permissive_free_software_licence)
+[MIT license](http://creativecommons.org/licenses/MIT/)

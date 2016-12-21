@@ -1,6 +1,6 @@
 {
   "name": "mp3-split",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "MP3 audio splitter",
   "main": "index.js",
   "author": {
@@ -14,7 +14,7 @@
     }
   ],
   "repository": "https://github.com/skiptirengu/mp3-split",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "dependencies": {
     "colors": "^1.1.2",
     "sanitize-filename": "^1.6.1",

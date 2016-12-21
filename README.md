@@ -57,7 +57,7 @@ split.parse().then((parsedAudio) => {
 });
 ```
 
-You can also bind a listener to the following events.
+mp3-split provides the following events.
 
 ```js
 // emitted before splitting an audio file

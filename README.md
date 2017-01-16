@@ -18,7 +18,7 @@ mp3-split expects a `.mp3` file or an youtube video link for input.
 
 The template file format should be in the following format.
 ```
-[time info ([hh:]mm:ss[.ms])] Name
+[time info ([hh:]mm:ss[.ms])] My Music Name
 ```
 
 Examaple:
@@ -64,9 +64,9 @@ mp3-split provides the following events.
 mp3Split.on('beforeSplit', (audioInfo) => console.log(audioInfo));
 // emitted after splitting an audio file
 mp3Split.on('afterSplit', (parsedAudioFiles) => console.log(parsedAudioFiles));
-// emitted when a video is found within the url given
+// emitted when a video is found within the given url
 mp3Split.on('url', (videoInfo) => console.log(videoInfo));
-// emitted when the "audios" options is parsed and, before start to split the audio
+// emitted when the "audios" option is parsed and, before start to split the audio
 mp3Split.on('data', (data) => console.log(data));
 ```
 

@@ -4,7 +4,7 @@ Split mp3 audio files
 
 ## Install
 
-Make sure you have `ffmpeg` installed and run
+Make sure you have [ffmpeg](https://ffmpeg.org/) installed and added to your path then run:
 
 ```bash
 npm install [-g] mp3-split
@@ -12,16 +12,16 @@ npm install [-g] mp3-split
 
 ## CLI
 
-mp3-split comes with a built in CLI tool. Type ```mp3-split -h``` to list all options and, see an usage example.
-
-mp3-split expects a `.mp3` file or an youtube video link for input.
+mp3-split comes with a built in CLI tool. Type `mp3-split -h` to list all options and see an usage example.
+For input you can use either a YouTube link or a local file.
 
 The template file format should be in the following format.
+For more info, checkout [ffmpeg's duration syntax](https://ffmpeg.org/ffmpeg-utils.html#toc-Time-duration) page.
 ```
-[time info ([hh:]mm:ss[.ms])] My Music Name
+[([hh:]mm:ss[.ms...])] My Music Name
 ```
 
-Examaple:
+A template file usually looks like this:
 ```
 [00:00] eli filosov [ p h i l o ] - oneofone_rwrk
 [01:30] Swishers [SwuM x bsd.u]
@@ -49,24 +49,24 @@ let options = {input: 'myaudio.mp3', audios: ['[01:30] My audio']};
 let split = mp3Split(options);
 split.parse().then((parsedAudio) => {
   for (let audio of parsedAudio) {
-    console.log(audio.name); // filename
-    console.log(audio.start);  // audio start
-    console.log(audio.end); // audio end
+    console.log(audio.name);      // filename
+    console.log(audio.start);     // audio start
+    console.log(audio.end);       // audio end
     console.log(audio.trackName); // track name
   }
 });
 ```
 
-mp3-split provides the following events.
+mp3-split emits the following events.
 
 ```js
 // emitted before splitting an audio file
 mp3Split.on('beforeSplit', (audioInfo) => console.log(audioInfo));
 // emitted after splitting an audio file
-mp3Split.on('afterSplit', (parsedAudioFiles) => console.log(parsedAudioFiles));
+mp3Split.on('afterSplit', (parsedAudioInfo) => console.log(parsedAudioInfo));
 // emitted when a video is found within the given url
 mp3Split.on('url', (videoInfo) => console.log(videoInfo));
-// emitted when the "audios" option is parsed and, before start to split the audio
+// emitted when the "audios" option is parsed and BEFORE splitting the audio
 mp3Split.on('data', (data) => console.log(data));
 ```
 

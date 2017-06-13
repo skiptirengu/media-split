@@ -16,7 +16,7 @@ mp3-split comes with a built in CLI tool. Type `mp3-split -h` to list all option
 For input you can use either a YouTube link or a local file.
 
 The template file format should be in the following format.
-For more info, checkout [ffmpeg's duration syntax](https://ffmpeg.org/ffmpeg-utils.html#toc-Time-duration) page.
+For more info, checkout [ffmpeg's duration syntax](https://ffmpeg.org/ffmpeg-utils.html#Time-duration) page.
 ```
 [([hh:]mm:ss[.ms...])] My Music Name
 ```

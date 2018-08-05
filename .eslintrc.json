@@ -4,9 +4,6 @@
     "node": true
   },
   "extends": "eslint:recommended",
-  "globals": {
-    "arrombot": false
-  },
   "rules": {
     "prefer-const": [
       "error"

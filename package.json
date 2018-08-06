@@ -16,10 +16,14 @@
   "repository": "https://github.com/skiptirengu/mp3-split",
   "license": "MIT",
   "dependencies": {
-    "colors": "^1.1.2",
+    "colors": "^1.3.1",
+    "global-modules": "^1.0.0",
     "sanitize-filename": "^1.6.1",
-    "yargs": "^6.6.0",
-    "ytdl-core": "^0.7.24"
+    "yargs": "^12.0.1",
+    "ytdl-core": "^0.24.0"
+  },
+  "peerDependencies": {
+    "ffmpeg-binaries": "^4.0.0"
   },
   "bin": {
     "mp3-split": "lib/cli.js"

@@ -1,6 +1,6 @@
 # mp3-split
 
-Split mp3 audio files
+Split audio (and video) files
 
 ## Install
 
@@ -54,12 +54,12 @@ You can also use mp3-split as a library. Ex:
 let mp3Split = require('mp3-split');
 let options = {input: 'myaudio.mp3', audios: ['[01:30] My audio']};
 let split = mp3Split(options);
-split.parse().then((parsedAudio) => {
-  for (let audio of parsedAudio) {
-    console.log(audio.name);      // filename
-    console.log(audio.start);     // audio start
-    console.log(audio.end);       // audio end
-    console.log(audio.trackName); // track name
+split.parse().then((sections) => {
+  for (let section of sections) {
+    console.log(section.name);      // filename
+    console.log(section.start);     // section start
+    console.log(section.end);       // section end
+    console.log(section.trackName); // track name
   }
 });
 ```
@@ -67,13 +67,13 @@ split.parse().then((parsedAudio) => {
 mp3-split emits the following events.
 
 ```js
-// emitted before splitting an audio file
-mp3Split.on('beforeSplit', (audioInfo) => console.log(audioInfo));
-// emitted after splitting an audio file
-mp3Split.on('afterSplit', (parsedAudioInfo) => console.log(parsedAudioInfo));
+// emitted before splitting a file section
+mp3Split.on('beforeSplit', (info) => console.log(info));
+// emitted after splitting file
+mp3Split.on('afterSplit', (parsedInfo) => console.log(parsedInfo));
 // emitted when a video is found within the given url
 mp3Split.on('url', (videoInfo) => console.log(videoInfo));
-// emitted when the "audios" option is parsed and BEFORE splitting the audio
+// emitted when the "sections" option is parsed and BEFORE splitting the file
 mp3Split.on('data', (data) => console.log(data));
 ```
 

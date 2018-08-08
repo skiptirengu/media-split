@@ -77,6 +77,11 @@ mp3Split.on('url', (videoInfo) => console.log(videoInfo));
 mp3Split.on('data', (data) => console.log(data));
 ```
 
+## TODO
+* ES6 rewrite
+* Support explicit start and end
+* Some unit tests wouldn't hurt also
+
 ## License
 
 Licensed under the incredibly [permissive](http://en.wikipedia.org/wiki/Permissive_free_software_licence)

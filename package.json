@@ -29,11 +29,17 @@
   "bin": {
     "mp3-split": "lib/cli.js"
   },
+  "scripts": {
+    "test": "mocha spec/*.spec.js",
+    "lint": "eslint lib/",
+    "lint:fix": "eslint lib/ --fix"
+  },
   "devDependencies": {
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0"
+    "eslint-plugin-standard": "^3.1.0",
+    "mocha": "^5.2.0"
   }
 }

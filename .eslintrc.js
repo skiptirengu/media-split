@@ -14,6 +14,8 @@ module.exports = {
     // 2 lines
     'indent': ['error', 2],
     // require space on single line objects
-    'object-curly-spacing': ['error', 'always']
+    'object-curly-spacing': ['error', 'always'],
+    // and arrays
+    'array-bracket-spacing': ['error', 'always']
   }
 }

@@ -2,6 +2,12 @@
 
 const MediaSplit = require('../lib/es6/MediaSplit.js')
 const expect = require('chai').expect
+const path = require('path')
+const fs = require('fs')
+const duration = require('mp3-duration')
+
+const outputPath = path.join(process.cwd(), 'spec', 'output')
+const dataPath = path.join(process.cwd(), 'spec', 'data')
 
 describe('MediaSplit', function () {
   let split
@@ -90,6 +96,55 @@ describe('MediaSplit', function () {
         ]
       })
       expect(() => split._parseMedia()).to.throw('Line 2 does not contain a valid time range')
+    })
+  })
+
+  describe('parse', function () {
+    this.timeout(30000)
+
+    beforeEach(() => {
+      fs.readdirSync(outputPath).forEach((file) => {
+        if (path.extname(file) === '.mp3') {
+          fs.unlinkSync(path.join(outputPath, file))
+        }
+      })
+    })
+
+    afterEach(() => {
+      split = null
+    })
+
+    it('should parse a local file', function () {
+      let counter = 0
+
+      split = new MediaSplit({
+        format: 'mp3',
+        output: outputPath,
+        input: path.join(dataPath, 'video.mp4'),
+        sections: [
+          '[00:00] First',
+          '[00:02.500 - 00:07] Second',
+          '[00:10 - 00:11.400] Third'
+        ]
+      })
+
+      split.on('afterSplit', () => {
+        counter++
+      })
+
+      return split.parse().then(() => {
+        expect(counter).to.be.equals(3)
+        const values = [
+          duration(path.join(outputPath, 'First.mp3')),
+          duration(path.join(outputPath, 'Second.mp3')),
+          duration(path.join(outputPath, 'Third.mp3'))
+        ]
+        return Promise.all(values)
+      }).then(([ first, second, third ]) => {
+        expect(first.toString().slice(0, 3)).to.be.equals('2.5')
+        expect(second.toString().slice(0, 3)).to.be.equals('4.5')
+        expect(third.toString().slice(0, 3)).to.be.equals('1.4')
+      })
     })
   })
 })

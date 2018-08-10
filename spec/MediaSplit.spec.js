@@ -1,6 +1,6 @@
 'use strict'
 
-const MediaSplit = require('../lib/es6/MediaSplit.js')
+const MediaSplit = require('../lib/MediaSplit.js')
 const expect = require('chai').expect
 const path = require('path')
 const fs = require('fs')
@@ -32,6 +32,47 @@ describe('MediaSplit', function () {
     it('should not match url', () => {
       expect(split._isUrl('foo')).to.be.false
       expect(split._isUrl('foo.a')).to.be.false
+    })
+  })
+
+  describe('_checkDownloadCache', function () {
+    let mockFile = path.join(outputPath, 'mock_file.mp4')
+
+    afterEach(() => {
+      split = null
+      fs.unlinkSync(mockFile)
+    })
+
+    it('should invalidate cache if sizes don\'t match', () => {
+      let info = { foo: 'bar' }
+      let called = false
+
+      fs.writeFileSync(mockFile, 'Foo bar')
+      split = new MediaSplit({
+        format: 'mp4',
+        output: outputPath
+      })
+
+      let data
+      split._downloadFile = (info) => {
+        data = info
+        called = true
+        return Promise.resolve()
+      }
+      split._getReqLib = function () {
+        return {
+          request (url, cb) {
+            cb({ statusCode: 200, headers: { 'content-length': 123488 } })
+            return { end: () => null, on: () => null }
+          }
+        }
+      }
+
+      split._inputFile = mockFile
+      return split._checkDownloadCache({ url: 'http://skiptirengu.com/video/' }, info).then(() => {
+        expect(called).to.be.true
+        expect(data).to.be.deep.equals(info)
+      })
     })
   })
 
@@ -102,23 +143,66 @@ describe('MediaSplit', function () {
   describe('parse', function () {
     this.timeout(30000)
 
-    beforeEach(() => {
+    function tearDown () {
       fs.readdirSync(outputPath).forEach((file) => {
-        if (path.extname(file) === '.mp3') {
+        if ([ '.mp3', '.m4a' ].indexOf(path.extname(file)) !== -1) {
           fs.unlinkSync(path.join(outputPath, file))
         }
       })
+    }
+
+    beforeEach(() => {
+      tearDown()
     })
 
     afterEach(() => {
       split = null
+      tearDown()
+    })
+
+    it('should parse a url', function () {
+      let counter = 0
+      let video, filename, dataEvt = false
+
+      // TODO This request should be mocked but...
+      split = new MediaSplit({
+        format: 'm4a',
+        output: outputPath,
+        input: 'https://www.youtube.com/watch?v=kN9SZtwP1ys',
+        audioonly: true,
+        sections: [
+          '[00:00] Part 1',
+          '[00:05 - 00:10] Part 2'
+        ]
+      })
+
+      split.on('afterSplit', () => {
+        counter++
+      })
+      split.on('url', (file, info) => {
+        video = info.video_id
+        filename = file
+      })
+      split.on('data', () => {
+        dataEvt = true
+      })
+
+      return split.parse().then((sections) => {
+        expect(video).to.be.equals('kN9SZtwP1ys')
+        expect(counter).to.be.equals(2)
+        expect(sections).to.length(2)
+        expect(dataEvt).to.be.true
+        expect(fs.existsSync(path.join(outputPath, 'Part 1.m4a'))).to.be.true
+        expect(fs.existsSync(path.join(outputPath, 'Part 2.m4a'))).to.be.true
+        expect(fs.existsSync(filename)).to.be.true
+      })
     })
 
     it('should parse a local file', function () {
       let counter = 0
+      let dataEvt = false
 
       split = new MediaSplit({
-        format: 'mp3',
         output: outputPath,
         input: path.join(dataPath, 'video.mp4'),
         sections: [
@@ -131,8 +215,12 @@ describe('MediaSplit', function () {
       split.on('afterSplit', () => {
         counter++
       })
+      split.on('data', () => {
+        dataEvt = true
+      })
 
-      return split.parse().then(() => {
+      return split.parse().then((sections) => {
+        expect(sections).to.length(3)
         expect(counter).to.be.equals(3)
         const values = [
           duration(path.join(outputPath, 'First.mp3')),
@@ -144,6 +232,7 @@ describe('MediaSplit', function () {
         expect(first.toString().slice(0, 3)).to.be.equals('2.5')
         expect(second.toString().slice(0, 3)).to.be.equals('4.5')
         expect(third.toString().slice(0, 3)).to.be.equals('1.4')
+        expect(dataEvt).to.be.true
       })
     })
   })

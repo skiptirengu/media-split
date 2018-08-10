@@ -29,7 +29,7 @@
     "@ffmpeg-installer/ffmpeg": "ˆ1.0.0"
   },
   "bin": {
-    "mp3-split": "lib/cli.js"
+    "mp3-split": "cli.js"
   },
   "scripts": {
     "test": "mocha spec/*.spec.js",

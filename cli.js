@@ -2,7 +2,7 @@
 
 'use strict'
 
-const MediaSplit = require('./lib/MediaSplit')
+const MediaSplit = require('./index.js')
 const fs = require('fs')
 const yargs = require('yargs')
 const chalk = require('chalk')

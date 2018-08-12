@@ -82,13 +82,8 @@ function runCommand () {
         chalk.green('Successfully parsed ') + chalk.cyan(info.name) + chalk.green('!')
       )
     })
-    .once('data', () => {
-      if (progressBar) {
-        progressBar.stop()
-      }
-    })
     .once('url', (file) => {
-      progressBar = new progress.Bar({}, progress.Presets.shades_classic)
+      progressBar = new progress.Bar({ clearOnComplete: true, stopOnComplete: true }, progress.Presets.shades_classic)
       log(
         chalk.green('Found video! saving to ') + chalk.cyan(file)
       )

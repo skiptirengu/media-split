@@ -162,7 +162,7 @@ describe('MediaSplit', function () {
 
     it('should parse a url', function () {
       let counter = 0
-      let video, filename, dataEvt = false
+      let video, filename, progressEvt, dataEvt = false
 
       // TODO This request should be mocked but...
       split = new MediaSplit({
@@ -186,12 +186,16 @@ describe('MediaSplit', function () {
       split.on('data', () => {
         dataEvt = true
       })
+      split.on('downloadProgress', (chunk, len, total) => {
+        progressEvt = total
+      })
 
       return split.parse().then((sections) => {
         expect(video).to.be.equals('kN9SZtwP1ys')
         expect(counter).to.be.equals(2)
         expect(sections).to.length(2)
         expect(dataEvt).to.be.true
+        expect(progressEvt).to.be.equals(161161)
         expect(fs.existsSync(path.join(outputPath, 'Part 1.m4a'))).to.be.true
         expect(fs.existsSync(path.join(outputPath, 'Part 2.m4a'))).to.be.true
         expect(fs.existsSync(filename)).to.be.true

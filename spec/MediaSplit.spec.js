@@ -145,7 +145,7 @@ describe('MediaSplit', function () {
 
     function tearDown () {
       fs.readdirSync(outputPath).forEach((file) => {
-        if ([ '.mp3', '.m4a' ].indexOf(path.extname(file)) !== -1) {
+        if ([ '.mp3', '.m4a', '.jpg' ].indexOf(path.extname(file)) !== -1) {
           fs.unlinkSync(path.join(outputPath, file))
         }
       })
@@ -169,6 +169,7 @@ describe('MediaSplit', function () {
         format: 'm4a',
         output: outputPath,
         input: 'https://www.youtube.com/watch?v=kN9SZtwP1ys',
+        downloadCover: true,
         audioonly: true,
         sections: [
           '[00:00] Part 1',
@@ -198,6 +199,7 @@ describe('MediaSplit', function () {
         expect(progressEvt).to.be.equals(161161)
         expect(fs.existsSync(path.join(outputPath, 'Part 1.m4a'))).to.be.true
         expect(fs.existsSync(path.join(outputPath, 'Part 2.m4a'))).to.be.true
+        expect(fs.existsSync(path.join(outputPath, 'cover.jpg'))).to.be.true
         expect(fs.existsSync(filename)).to.be.true
       })
     })

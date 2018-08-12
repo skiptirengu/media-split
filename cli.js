@@ -6,6 +6,7 @@ const MediaSplit = require('./index.js')
 const fs = require('fs')
 const yargs = require('yargs')
 const chalk = require('chalk')
+const progress = require('cli-progress')
 const log = console.log
 
 const argv = yargs.usage('Usage: $0 <command> [options]')
@@ -45,7 +46,7 @@ function runCommand () {
     return
   }
 
-  sections = content.trim().split('\n')
+  sections = content.toString().trim().split('\n')
 
   const meta = []
   for (const data of argv.metadata) {
@@ -68,6 +69,8 @@ function runCommand () {
     audioonly: argv.audioonly
   })
 
+  let progressBar = null
+
   split
     .on('beforeSplit', (info) => {
       log(
@@ -79,10 +82,22 @@ function runCommand () {
         chalk.green('Successfully parsed ') + chalk.cyan(info.name) + chalk.green('!')
       )
     })
-    .on('url', (file) => {
+    .once('data', () => {
+      if (progressBar) {
+        progressBar.stop()
+      }
+    })
+    .once('url', (file) => {
+      progressBar = new progress.Bar({}, progress.Presets.shades_classic)
       log(
         chalk.green('Found video! saving to ') + chalk.cyan(file)
       )
+    })
+    .once('downloadLength', (total) => {
+      progressBar.start(total, 0)
+    })
+    .on('downloadProgress', (chunk) => {
+      progressBar.increment(chunk)
     })
     .parse()
     .then(() => {

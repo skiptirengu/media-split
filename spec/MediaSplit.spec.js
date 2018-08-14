@@ -62,6 +62,7 @@ describe('MediaSplit', function () {
       split._getReqLib = function () {
         return {
           request (url, cb) {
+            // eslint-disable-next-line standard/no-callback-literal
             cb({ statusCode: 200, headers: { 'content-length': 123488 } })
             return { end: () => null, on: () => null }
           }
@@ -89,12 +90,13 @@ describe('MediaSplit', function () {
           '[01:30] bar',
           '[03:28.222] Test _ file',
           '[05:52.1 - 07:24] Qux - abc',
-          '[07:50] -[Song - tag][name]'
+          '[07:50] -[Song - tag][name]',
+          '[10:55] Nujabes - City Lights (ft. Pase Rock & Substantial)'
         ]
       })
 
       const parsed = split._parseMedia()
-      expect(parsed).to.length(5)
+      expect(parsed).to.length(6)
 
       expect(parsed[ 0 ].trackName).to.be.equals('foo')
       expect(parsed[ 0 ].name).to.be.equals('foo.m4a')
@@ -119,7 +121,12 @@ describe('MediaSplit', function () {
       expect(parsed[ 4 ].trackName).to.be.equals('-[Song - tag][name]')
       expect(parsed[ 4 ].name).to.be.equals('-[Song - tag][name].m4a')
       expect(parsed[ 4 ].start).to.be.equals('07:50')
-      expect(parsed[ 4 ].end).to.be.equals(null)
+      expect(parsed[ 4 ].end).to.be.equals('10:55')
+
+      expect(parsed[ 5 ].trackName).to.be.equals('Nujabes - City Lights (ft. Pase Rock & Substantial)')
+      expect(parsed[ 5 ].name).to.be.equals('Nujabes - City Lights (ft. Pase Rock & Substantial).m4a')
+      expect(parsed[ 5 ].start).to.be.equals('10:55')
+      expect(parsed[ 5 ].end).to.be.equals(null)
     })
 
     it('should throw on invalid start', () => {
@@ -162,7 +169,10 @@ describe('MediaSplit', function () {
 
     it('should parse a url', function () {
       let counter = 0
-      let video, filename, progressEvt, dataEvt = false
+      let video
+      let filename
+      let progressEvt
+      let dataEvt = false
 
       // TODO This request should be mocked but...
       split = new MediaSplit({

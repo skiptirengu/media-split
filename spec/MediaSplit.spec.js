@@ -184,7 +184,8 @@ describe('MediaSplit', function () {
         sections: [
           '[00:00] Part 1',
           '[00:05 - 00:10] Part 2'
-        ]
+        ],
+        metadata: [ { name: 'author', value: 'Foo Bar' } ]
       })
 
       split.on('afterSplit', () => {

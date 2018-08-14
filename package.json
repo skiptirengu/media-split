@@ -13,6 +13,13 @@
       "email": "thiago_ogt@outlook.com"
     }
   ],
+  "files": [
+    "cli",
+    "lib",
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
   "repository": "https://github.com/skiptirengu/mp3-split",
   "license": "MIT",
   "dependencies": {
@@ -27,10 +34,11 @@
   },
   "peerDependencies": {
     "ffmpeg-binaries": "^4.0.0",
-    "@ffmpeg-installer/ffmpeg": "ˆ1.0.0"
+    "@ffmpeg-installer/ffmpeg": "^1.0.0"
   },
   "bin": {
-    "mp3-split": "cli.js"
+    "mp3-split": "cli/index.js",
+    "media-split": "cli/index.js"
   },
   "scripts": {
     "test": "mocha spec/*.spec.js",

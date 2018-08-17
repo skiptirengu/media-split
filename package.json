@@ -1,7 +1,7 @@
 {
-  "name": "mp3-split",
+  "name": "media-split",
   "version": "4.1.0",
-  "description": "MP3 audio splitter",
+  "description": "Split audio (and video) files",
   "main": "index.js",
   "author": {
     "name": "Thiago Oliveira",
@@ -20,7 +20,7 @@
     "LICENSE",
     "README.md"
   ],
-  "repository": "https://github.com/skiptirengu/mp3-split",
+  "repository": "https://github.com/skiptirengu/media-split",
   "license": "MIT",
   "dependencies": {
     "chalk": "^2.4.1",

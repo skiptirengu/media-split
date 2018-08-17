@@ -5,6 +5,7 @@ const expect = require('chai').expect
 const path = require('path')
 const fs = require('fs')
 const duration = require('mp3-duration')
+const mockRequire = require('mock-require')
 
 const outputPath = path.join(process.cwd(), 'spec', 'output')
 const dataPath = path.join(process.cwd(), 'spec', 'data')
@@ -12,14 +13,33 @@ const dataPath = path.join(process.cwd(), 'spec', 'data')
 describe('MediaSplit', function () {
   let split
 
-  describe('_isUrl', function () {
-    afterEach(() => {
-      split = null
-    })
+  afterEach(() => {
+    split = null
+  })
+  beforeEach(() => {
+    split = new MediaSplit()
+  })
+
+  describe('_optimalNumberOfWorkers', function () {
     beforeEach(() => {
-      split = new MediaSplit()
+      mockRequire.stopAll()
+    })
+    afterEach(() => {
+      mockRequire.stopAll()
     })
 
+    it('should return 1 by default', () => {
+      mockRequire('os', { cpus: () => new Array(1) })
+      expect(split._optimalNumberOfWorkers()).to.be.equals(1)
+    })
+
+    it('should return correct value for multiple cpus', () => {
+      mockRequire('os', { cpus: () => new Array(8) })
+      expect(split._optimalNumberOfWorkers()).to.be.equals(7)
+    })
+  })
+
+  describe('_isUrl', function () {
     it('should match url', () => {
       expect(split._isUrl('http://www.youtube.com/watch?v=-wtIMTCHWuI')).to.true
       expect(split._isUrl('https://www.youtube.com.br/v/-wtIMTCHWuI?version=3&autohide=1')).to.be.true
@@ -39,7 +59,6 @@ describe('MediaSplit', function () {
     let mockFile = path.join(outputPath, 'mock_file.mp4')
 
     afterEach(() => {
-      split = null
       fs.unlinkSync(mockFile)
     })
 
@@ -78,10 +97,6 @@ describe('MediaSplit', function () {
   })
 
   describe('_parseMedia', function () {
-    afterEach(() => {
-      split = null
-    })
-
     it('should parse sections correctly', () => {
       split = new MediaSplit({
         format: 'm4a',
@@ -158,14 +173,8 @@ describe('MediaSplit', function () {
       })
     }
 
-    beforeEach(() => {
-      tearDown()
-    })
-
-    afterEach(() => {
-      split = null
-      tearDown()
-    })
+    beforeEach(tearDown)
+    afterEach(tearDown)
 
     it('should parse a url', function () {
       let counter = 0

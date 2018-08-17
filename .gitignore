@@ -7,3 +7,4 @@ tmp/
 *.jpg
 .nyc_output
 out/
+docs

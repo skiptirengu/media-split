@@ -106,12 +106,14 @@ describe('MediaSplit', function () {
           '[03:28.222] Test _ file',
           '[05:52.1 - 07:24] Qux - abc',
           '[07:50] -[Song - tag][name]',
-          '[10:55] Nujabes - City Lights (ft. Pase Rock & Substantial)'
+          '[10:55 - 12:00] Nujabes - City Lights (ft. Pase Rock & Substantial)',
+          '[01:05:50] Test with hour',
+          '[02:05:50 - 2:1:1.500] Test with hour range'
         ]
       })
 
       const parsed = split._parseMedia()
-      expect(parsed).to.length(6)
+      expect(parsed).to.length(8)
 
       expect(parsed[ 0 ].trackName).to.be.equals('foo')
       expect(parsed[ 0 ].name).to.be.equals('foo.m4a')
@@ -141,7 +143,17 @@ describe('MediaSplit', function () {
       expect(parsed[ 5 ].trackName).to.be.equals('Nujabes - City Lights (ft. Pase Rock & Substantial)')
       expect(parsed[ 5 ].name).to.be.equals('Nujabes - City Lights (ft. Pase Rock & Substantial).m4a')
       expect(parsed[ 5 ].start).to.be.equals('10:55')
-      expect(parsed[ 5 ].end).to.be.equals(null)
+      expect(parsed[ 5 ].end).to.be.equals('12:00')
+
+      expect(parsed[ 6 ].trackName).to.be.equals('Test with hour')
+      expect(parsed[ 6 ].name).to.be.equals('Test with hour.m4a')
+      expect(parsed[ 6 ].start).to.be.equals('01:05:50')
+      expect(parsed[ 6 ].end).to.be.equals('02:05:50')
+
+      expect(parsed[ 7 ].trackName).to.be.equals('Test with hour range')
+      expect(parsed[ 7 ].name).to.be.equals('Test with hour range.m4a')
+      expect(parsed[ 7 ].start).to.be.equals('02:05:50')
+      expect(parsed[ 7 ].end).to.be.equals('2:1:1.500')
     })
 
     it('should throw on invalid start', () => {

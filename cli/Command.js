@@ -23,13 +23,13 @@ class Command {
   }
 
   parseMetadataInfo () {
-    const meta = []
+    const meta = new Map()
     for (const data of this.argv.metadata) {
       const split = data.split('=')
       if (!split || split.length !== 2) {
         return null
       } else {
-        meta.push({ name: split[ 0 ], value: split[ 1 ] })
+        meta.set(split[ 0 ], split[ 1 ])
       }
     }
     return meta

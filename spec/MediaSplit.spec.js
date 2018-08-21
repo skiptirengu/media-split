@@ -206,7 +206,7 @@ describe('MediaSplit', function () {
           '[00:00] Part 1',
           '[00:05 - 00:10] Part 2'
         ],
-        metadata: [ { name: 'author', value: 'Foo Bar' } ]
+        metadata: new Map([ [ 'author', 'Foo Bar' ] ])
       })
 
       split.on('afterSplit', () => {
@@ -250,7 +250,15 @@ describe('MediaSplit', function () {
         ]
       })
 
-      split.on('afterSplit', () => {
+      split.on('beforeSplit', (info, index) => {
+        info.metadata.set('track', 1)
+        info.metadata.set('foo', 'bar')
+        expect(index).to.be.a('number')
+      })
+      split.on('afterSplit', (info, index) => {
+        expect(info.metadata.get('track')).to.be.equals(1)
+        expect(info.metadata.get('foo')).to.be.equals('bar')
+        expect(index).to.be.a('number')
         counter++
       })
       split.on('data', () => {

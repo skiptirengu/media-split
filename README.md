@@ -1,4 +1,4 @@
-# mp3-split
+# Media-split
 
 Split audio (and video) files
 
@@ -11,7 +11,7 @@ npm install [-g] mp3-split
 ```
 
 If you don't have ffmpeg installed, you can install [this package](https://www.npmjs.com/package/ffmpeg-binaries) which 
-comes with a bundled ffmpeg, and mp3-split will automatically detect and use it.
+comes with a bundled ffmpeg, and media-split will automatically detect and use it.
 
 ```bash
 npm install [-g] ffmpeg-binaries
@@ -19,13 +19,13 @@ npm install [-g] ffmpeg-binaries
 
 ## CLI
 
-mp3-split comes with a built in CLI tool. Type `mp3-split -h` to list all options and see an usage example.
+media-split comes with a built in CLI tool. Type `media-split -h` to list all options and see an usage example.
 For input you can use either a YouTube link or a local file.
 
-The template file format should be in the following format.
+The template file should be in the following format.
 For more info, checkout [ffmpeg's duration syntax](https://ffmpeg.org/ffmpeg-utils.html#Time-duration) page.
 ```
-[([hh:]mm:ss[.ms...])] My Music Name
+[([hh:]mm:ss[.ms...]) [ - ([hh:]mm:ss[.ms...])]] My Music Name
 ```
 
 A template file usually looks like this:
@@ -33,27 +33,22 @@ A template file usually looks like this:
 [00:00] eli filosov [ p h i l o ] - oneofone_rwrk
 [01:30] Swishers [SwuM x bsd.u]
 [03:28] sweetbn _ i held you so close i forgot the world
-[05:52] emune - Gretchen
-[07:52] jhfly - sheets
+[05:52 - 07:49] emune - Gretchen
+[07:52 - 09:50] jhfly - sheets
 [10:00] arbour - elusive
 [11:30] tomppabeats - will you stay here with me
 [12:40] tomppabeats - lonely but not when you hold me
-[13:31] Bassti - To All The Ladys In The Place
+[13:31 - 15:30] Bassti - To All The Ladys In The Place
 [15:37] wish you still felt this way [ sophie meiers x 90sFlav ]
-[18:04] quickly, quickly - getsomerest/sleepwell
-[23:36] charlie toØ human - that "just got home from work" type of beat.
-[25:37] jinsang - affection
-[27:32] jhfly - girl
 ```
 
 ## Library
 
-You can also use mp3-split as a library. Ex:
+You can also use media-split as a library.
 
 ```js
-let mp3Split = require('mp3-split');
-let options = {input: 'myaudio.mp3', audios: ['[01:30] My audio']};
-let split = mp3Split(options);
+let MediaSplit = require('media-split');
+let split = new MediaSplit({ input: 'myaudio.mp3', sections: ['[01:30] My audio'] });
 split.parse().then((sections) => {
   for (let section of sections) {
     console.log(section.name);      // filename
@@ -64,23 +59,70 @@ split.parse().then((sections) => {
 });
 ```
 
-mp3-split emits the following events.
+### new MediaSplit(options)
+**Returns**: MediaSplit  
 
-```js
-// emitted before splitting a file section
-mp3Split.on('beforeSplit', (info) => console.log(info));
-// emitted after splitting file
-mp3Split.on('afterSplit', (parsedInfo) => console.log(parsedInfo));
-// emitted when a video is found within the given url
-mp3Split.on('url', (videoInfo) => console.log(videoInfo));
-// emitted when the "sections" option is parsed and BEFORE splitting the file
-mp3Split.on('data', (data) => console.log(data));
-```
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>object</code> |  |
+| options.downloadCover | <code>boolean</code> | Whether to download the cover from the YouTube video |
+| options.input | <code>string</code> | The input file. Can be either a file path or a YouTube url |
+| options.concurrency | <code>number</code> | Number of parallel workers MediaSplit will spawn at once |
+| options.sections | <code>Array.&lt;string&gt;</code> | Sections to extract from the input source. Supported formats are `[01:30 - 03:50] File` or `[01:30] File` |
+| options.output | <code>string</code> | Output path |
+| options.format | <code>string</code> | Output format (mp3, m4a, flac, etc) |
+| options.audioonly | <code>boolean</code> | Force download only audio files when using a url as input |
 
-## TODO
-* ES6 rewrite
-* Support explicit start and end
-* Some unit tests wouldn't hurt also
+### MediaSplit.parse() ⇒ <code>Promise.&lt;Array.&lt;object&gt;&gt;</code>
+Split the media
+
+### "url" (input, info, cached)
+URL event. This event is emitted only once.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| input | <code>string</code> | The input file |
+| info | <code>object</code> | The video info |
+| cached | <code>boolean</code> | Whether the file was cached or not |
+
+### "data" (sections)
+Data event. This event is emitted only once.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| sections | <code>Array.&lt;object&gt;</code> | Array with the parsed sections |
+
+### "beforeSplit" (info, index)
+Emitted before a section is split.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| info | <code>object</code> | Section info |
+| index | <code>number</code> | Index |
+
+### "afterSplit" (info, index)
+Emitted after a section is split.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| info | <code>object</code> | Section info |
+| index | <code>number</code> | Section index |
+
+### "downloadProgress" (chunk, downloaded, total)
+Download progress.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chunk | <code>number</code> | Chunk length in bytes |
+| downloaded | <code>number</code> | Total downloaded in bytes |
+| total | <code>number</code> | Total download length in bytes |
+
+### "downloadLength" (length)
+Total download length. This event is emitted only once.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| length | <code>number</code> | Length in bytes |
 
 ## License
 

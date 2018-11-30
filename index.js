@@ -1,3 +1,3 @@
-'use strict';
+'use strict'
 
-module.exports = require('./lib/mp3-split');
+module.exports = require('./lib/MediaSplit.js')

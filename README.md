@@ -7,7 +7,7 @@ Split audio (and video) files
 Make sure you have [ffmpeg](https://ffmpeg.org/) installed and added to your path then run:
 
 ```bash
-npm install [-g] mp3-split
+npm install [-g] media-split
 ```
 
 If you don't have ffmpeg installed, you can install [this package](https://www.npmjs.com/package/ffmpeg-binaries) which 

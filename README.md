@@ -10,11 +10,15 @@ Make sure you have [ffmpeg](https://ffmpeg.org/) installed and added to your pat
 npm install [-g] media-split
 ```
 
-If you don't have ffmpeg installed, you can install [this package](https://www.npmjs.com/package/ffmpeg-binaries) which 
+If you don't have ffmpeg installed, you can install [this](https://www.npmjs.com/package/ffmpeg-binaries) or [this](https://www.npmjs.com/package/@ffmpeg-installer/ffmpeg) package which 
 comes with a bundled ffmpeg, and media-split will automatically detect and use it.
 
 ```bash
 npm install [-g] ffmpeg-binaries
+```
+or
+```bash
+npm install [-g] @ffmpeg-installer/ffmpeg
 ```
 
 ## CLI

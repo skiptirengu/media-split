@@ -48,6 +48,11 @@ A template file usually looks like this:
 [15:37] wish you still felt this way [ sophie meiers x 90sFlav ]
 ```
 
+## Known issues
+
+Sometimes, when downloading videos from YouTube, media-split can fail with the error message "Too many redirects".
+This is caused by a third party library and is already being tracked [here](https://github.com/fent/node-ytdl-core/issues/212).
+
 ## Library
 
 You can also use media-split as a library.

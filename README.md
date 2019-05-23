@@ -1,5 +1,7 @@
 # Media-split
 
+[![Build](https://travis-ci.org/skiptirengu/media-split.svg?branch=master)](https://travis-ci.org/skiptirengu/media-split)
+
 Split audio (and video) files
 
 ## Install

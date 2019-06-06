@@ -13,11 +13,16 @@ class Command {
     this.argv = argv
   }
 
+  getSections () {
+    return this.argv.sections || this.readTemplateFile()
+  }
+
   readTemplateFile () {
     try {
       const content = fs.readFileSync(this.argv.template, { enconding: 'utf-8' })
       return content.toString().trim().split('\n')
     } catch (e) {
+      log(red(`Unable to open template file ${this.argv.template}`))
       return null
     }
   }
@@ -53,9 +58,9 @@ class Command {
   }
 
   run () {
-    const sections = this.readTemplateFile()
-    if (sections === null) {
-      log(red(`Unable to open template file ${this.argv.template}`))
+    const sections = this.getSections()
+    if (!sections) {
+      log(red('No sections found. Unable to continue'))
       return
     }
 

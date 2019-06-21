@@ -30,6 +30,7 @@ const argv = yargs
   .default('a', false)
   .default('c', 3)
   .array('m').default('m', [])
+  .array('s')
   .help('h').alias('h', 'help')
   .argv
 

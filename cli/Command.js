@@ -77,7 +77,8 @@ class Command {
       metadata: metadata,
       output: this.argv.output || '.',
       format: this.argv.format,
-      audioonly: this.argv.audioonly
+      audioonly: this.argv.audioonly,
+      quality: this.argv.quality
     })
 
     let downloadBar

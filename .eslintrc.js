@@ -16,6 +16,7 @@ module.exports = {
     // require space on single line objects
     'object-curly-spacing': ['error', 'always'],
     // and arrays
-    'array-bracket-spacing': ['error', 'always']
+    'array-bracket-spacing': ['error', 'always'],
+    'computed-property-spacing': ['error', 'always']
   }
 }

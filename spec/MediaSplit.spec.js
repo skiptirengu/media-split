@@ -56,14 +56,14 @@ describe('MediaSplit', function () {
   })
 
   describe('_checkDownloadCache', function () {
-    let mockFile = path.join(outputPath, 'mock_file.mp4')
+    const mockFile = path.join(outputPath, 'mock_file.mp4')
 
     afterEach(() => {
       fs.unlinkSync(mockFile)
     })
 
     it('should invalidate cache if sizes don\'t match', () => {
-      let info = { foo: 'bar' }
+      const info = { foo: 'bar' }
       let called = false
 
       fs.writeFileSync(mockFile, 'Foo bar')

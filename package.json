@@ -23,18 +23,18 @@
   "repository": "https://github.com/skiptirengu/media-split",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^2.4.2",
-    "cli-progress": "^2.1.1",
-    "eslint": "^5.16.0",
+    "chalk": "^3.0.0",
+    "cli-progress": "^3.6.0",
+    "eslint": "^6.8.0",
     "global-modules": "^2.0.0",
-    "miniget": "^1.5.1",
-    "sanitize-filename": "^1.6.1",
-    "yargs": "^13.2.4",
-    "ytdl-core": "^0.29.2"
+    "miniget": "^1.6.1",
+    "sanitize-filename": "^1.6.3",
+    "yargs": "^15.1.0",
+    "ytdl-core": "^1.0.7"
   },
   "peerDependencies": {
     "ffmpeg-binaries": "^4.0.0",
-    "@ffmpeg-installer/ffmpeg": "^1.0.18"
+    "@ffmpeg-installer/ffmpeg": "^1.0.20"
   },
   "bin": {
     "mp3-split": "cli/index.js",
@@ -52,18 +52,18 @@
   ],
   "devDependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.15",
-    "@types/chai": "^4.1.7",
+    "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-node": "^9.1.0",
-    "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "jsdoc-to-markdown": "^5.0.0",
-    "mocha": "^6.1.4",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jsdoc-to-markdown": "^5.0.3",
+    "mocha": "^7.0.1",
     "mock-require": "^3.0.3",
     "mp3-duration": "^1.1.0",
-    "nyc": "^14.1.1",
+    "nyc": "^15.0.0",
     "pre-commit": "^1.2.2"
   }
 }

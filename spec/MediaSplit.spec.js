@@ -178,7 +178,7 @@ describe('MediaSplit', function () {
 
     function tearDown () {
       fs.readdirSync(outputPath).forEach((file) => {
-        if ([ '.mp3', '.m4a', '.jpg' ].indexOf(path.extname(file)) !== -1) {
+        if ([ '.mp3', '.m4a', '.jpg', '.mp4' ].indexOf(path.extname(file)) !== -1) {
           fs.unlinkSync(path.join(outputPath, file))
         }
       })
@@ -187,7 +187,9 @@ describe('MediaSplit', function () {
     beforeEach(tearDown)
     afterEach(tearDown)
 
-    it('should parse a url', async function () {
+    it('should parse an url', async function () {
+      this.timeout(8000)
+
       let counter = 0
       let video
       let filename

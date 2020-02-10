@@ -62,7 +62,7 @@ describe('MediaSplit', function () {
       fs.unlinkSync(mockFile)
     })
 
-    it('should invalidate cache if sizes don\'t match', () => {
+    it('should invalidate cache if sizes don\'t match', async () => {
       const info = { foo: 'bar' }
       let called = false
 
@@ -89,10 +89,9 @@ describe('MediaSplit', function () {
       }
 
       split._inputFile = mockFile
-      return split._checkDownloadCache({ url: 'http://skiptirengu.com/video/' }, info).then(() => {
-        expect(called).to.be.true
-        expect(data).to.be.deep.equals(info)
-      })
+      await split._checkDownloadCache({ url: 'http://skiptirengu.com/video/' }, info)
+      expect(called).to.be.true
+      expect(data).to.be.deep.equals(info)
     })
   })
 
@@ -188,7 +187,7 @@ describe('MediaSplit', function () {
     beforeEach(tearDown)
     afterEach(tearDown)
 
-    it('should parse a url', function () {
+    it('should parse a url', async function () {
       let counter = 0
       let video
       let filename
@@ -223,20 +222,19 @@ describe('MediaSplit', function () {
         progressEvt = total
       })
 
-      return split.parse().then((sections) => {
-        expect(video).to.be.equals('kN9SZtwP1ys')
-        expect(counter).to.be.equals(2)
-        expect(sections).to.length(2)
-        expect(dataEvt).to.be.true
-        expect(progressEvt).to.be.equals(161161)
-        expect(fs.existsSync(path.join(outputPath, 'Part 1.m4a'))).to.be.true
-        expect(fs.existsSync(path.join(outputPath, 'Part 2.m4a'))).to.be.true
-        expect(fs.existsSync(path.join(outputPath, 'cover.jpg'))).to.be.true
-        expect(fs.existsSync(filename)).to.be.true
-      })
+      const sections = await split.parse()
+      expect(video).to.be.equals('kN9SZtwP1ys')
+      expect(counter).to.be.equals(2)
+      expect(sections).to.length(2)
+      expect(dataEvt).to.be.true
+      expect(progressEvt).to.be.equals(161161)
+      expect(fs.existsSync(path.join(outputPath, 'Part 1.m4a'))).to.be.true
+      expect(fs.existsSync(path.join(outputPath, 'Part 2.m4a'))).to.be.true
+      expect(fs.existsSync(path.join(outputPath, 'cover.jpg'))).to.be.true
+      expect(fs.existsSync(filename)).to.be.true
     })
 
-    it('should parse a local file', function () {
+    it('should parse a local file', async function () {
       let counter = 0
       let dataEvt = false
 
@@ -265,21 +263,19 @@ describe('MediaSplit', function () {
         dataEvt = true
       })
 
-      return split.parse().then((sections) => {
-        expect(sections).to.length(3)
-        expect(counter).to.be.equals(3)
-        const values = [
-          duration(path.join(outputPath, 'First.mp3')),
-          duration(path.join(outputPath, 'Second.mp3')),
-          duration(path.join(outputPath, 'Third.mp3'))
-        ]
-        return Promise.all(values)
-      }).then(([ first, second, third ]) => {
-        expect(first.toString().slice(0, 3)).to.be.equals('2.5')
-        expect(second.toString().slice(0, 3)).to.be.equals('4.5')
-        expect(third.toString().slice(0, 3)).to.be.equals('1.4')
-        expect(dataEvt).to.be.true
-      })
+      const sections = await split.parse()
+      expect(sections).to.length(3)
+      expect(counter).to.be.equals(3)
+      const values = [
+        duration(path.join(outputPath, 'First.mp3')),
+        duration(path.join(outputPath, 'Second.mp3')),
+        duration(path.join(outputPath, 'Third.mp3'))
+      ]
+      const [ first, second, third ] = await Promise.all(values)
+      expect(first.toString().slice(0, 3)).to.be.equals('2.5')
+      expect(second.toString().slice(0, 3)).to.be.equals('4.5')
+      expect(third.toString().slice(0, 3)).to.be.equals('1.4')
+      expect(dataEvt).to.be.true
     })
   })
 })

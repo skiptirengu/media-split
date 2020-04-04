@@ -1,6 +1,6 @@
 # Media-split
 
-[![Build](https://travis-ci.org/skiptirengu/media-split.svg?branch=master)](https://travis-ci.org/skiptirengu/media-split)
+[![Actions Status](https://github.com/skiptirengu/media-split/workflows/Node.js%20CI/badge.svg)](https://github.com/skiptirengu/media-split/actions)
 
 Split audio (and video) files
 

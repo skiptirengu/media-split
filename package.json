@@ -1,6 +1,6 @@
 {
   "name": "media-split",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "description": "Split audio (and video) files",
   "main": "index.js",
   "author": {

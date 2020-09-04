@@ -214,7 +214,7 @@ describe('MediaSplit', function () {
         counter++
       })
       split.on('url', (file, info) => {
-        video = info.video_id
+        video = info.videoDetails.videoId
         filename = file
       })
       split.on('data', () => {

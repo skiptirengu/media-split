@@ -30,7 +30,7 @@
     "miniget": "^2.0.1",
     "sanitize-filename": "^1.6.3",
     "yargs": "^15.4.1",
-    "ytdl-core": "^3.2.2"
+    "ytdl-core": "^4.4.5"
   },
   "peerDependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.20",

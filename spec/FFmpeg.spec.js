@@ -26,9 +26,9 @@ describe('FFmpeg', function () {
     expect(require1).to.be.equals('foo')
   })
 
-  it('should fallback to ffmpeg-binaries', function () {
+  it('should fallback to ffmpeg-static', function () {
     mockRequire('@ffmpeg-installer/ffmpeg', errorModule)
-    mockRequire('ffmpeg-binaries', 1)
+    mockRequire('ffmpeg-static', 1)
     const require1 = require(moduleName)
     expect(require1).to.be.equals(1)
   })
@@ -36,7 +36,7 @@ describe('FFmpeg', function () {
   it('should fallback to ffmpeg on $PATH', function () {
     let called = false
     mockRequire('@ffmpeg-installer/ffmpeg', errorModule)
-    mockRequire('ffmpeg-binaries', errorModule)
+    mockRequire('ffmpeg-static', errorModule)
     childProcess.spawnSync = function (cmd) {
       called = true
       expect(cmd).to.be.equals('ffmpeg')
@@ -48,18 +48,18 @@ describe('FFmpeg', function () {
 
   it('should fallback to global @ffmpeg-installer', function () {
     mockRequire('@ffmpeg-installer/ffmpeg', errorModule)
-    mockRequire('ffmpeg-binaries', errorModule)
+    mockRequire('ffmpeg-static', errorModule)
     childProcess.spawnSync = errorSpawn
     mockRequire(path.join(global, '@ffmpeg-installer/ffmpeg'), { path: 'qux' })
     expect(require(moduleName)).to.be.equals('qux')
   })
 
-  it('should fallback to global ffmpeg-binaries', function () {
+  it('should fallback to global ffmpeg-static', function () {
     mockRequire('@ffmpeg-installer/ffmpeg', errorModule)
-    mockRequire('ffmpeg-binaries', errorModule)
+    mockRequire('ffmpeg-static', errorModule)
     childProcess.spawnSync = errorSpawn
     mockRequire(path.join(global, '@ffmpeg-installer/ffmpeg'), errorModule)
-    mockRequire(path.join(global, 'ffmpeg-binaries'), 2)
+    mockRequire(path.join(global, 'ffmpeg-static'), 2)
     expect(require(moduleName)).to.be.equals(2)
   })
 

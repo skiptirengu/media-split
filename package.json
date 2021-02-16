@@ -33,8 +33,8 @@
     "ytdl-core": "^3.2.2"
   },
   "peerDependencies": {
-    "ffmpeg-binaries": "^4.0.0",
-    "@ffmpeg-installer/ffmpeg": "^1.0.20"
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
+    "ffmpeg-static": "^4.2.7"
   },
   "bin": {
     "mp3-split": "cli/index.js",

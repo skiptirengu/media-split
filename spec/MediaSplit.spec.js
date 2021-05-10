@@ -81,7 +81,7 @@ describe('MediaSplit', function () {
       split._getReqLib = function () {
         return {
           request (url, cb) {
-            // eslint-disable-next-line standard/no-callback-literal
+            // eslint-disable-next-line node/no-callback-literal
             cb({ statusCode: 200, headers: { 'content-length': 123488 } })
             return { end: () => null, on: () => null }
           }

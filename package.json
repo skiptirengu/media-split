@@ -59,11 +59,13 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-standard": "^5.0.0",
-    "jsdoc-to-markdown": "^7.0.1",
     "mocha": "^8.4.0",
     "mock-require": "^3.0.3",
     "mp3-duration": "^1.1.0",
     "nyc": "^15.1.0",
     "pre-commit": "^1.2.2"
+  },
+  "optionalDependencies": {
+    "jsdoc-to-markdown": "^7.0.1"
   }
 }

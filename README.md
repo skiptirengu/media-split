@@ -84,6 +84,8 @@ split.parse().then((sections) => {
 | options.format | <code>string</code> | Output format (mp3, m4a, flac, etc) |
 | options.audioonly | <code>boolean</code> | Force download only audio files when using a url as input |
 | options.quality | <code>string</code> | The download quality when downloading from YouTube (highest/lowest/highestaudio/lowestaudio/highestvideo/lowestvideo) |
+| options.inputParams | <code>Array.&lt;string&gt;</code> | Additional input parameters for FFMpeg
+| options.outputParams | <code>Array.&lt;string&gt;</code> | Additional output parameters for FFMpeg
 
 ### MediaSplit.parse() ⇒ <code>Promise.&lt;Array.&lt;object&gt;&gt;</code>
 Split the media
